@@ -16,7 +16,7 @@
           <?php
             $today = date('Ymd'); 
             $homepageEvents = new WP_Query(array(
-              'posts_per_page' => -1, # Negative value to show all posts
+              'posts_per_page' => 2, # Negative value to show all posts
               'post_type' => 'event',
               'meta_key' => 'event_date', 
               'orderby' => 'meta_value_num', #title,rand,post_date,meta_value.
