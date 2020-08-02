@@ -4,8 +4,6 @@
  * Reusable Functions
  */
 function pageBanner($args=NULL) {
-    if (!is_array($args)) $args=array();
-
     if (!isset($args['title'])) {
         $args['title'] = get_the_title();
     }
