@@ -76,6 +76,14 @@ add_action('after_setup_theme', 'university_features');
 if (!function_exists('university_adjust_queries')) {
     function university_adjust_queries($query) {
         /**
+         *  Custom Query: CPT Campus
+         */
+        if (!is_admin() AND is_post_type_archive('campus') AND $query->is_main_query()) {
+            $query->set('posts_per_page', -1);
+        }
+
+
+        /**
          *  Custom Query: CPT Program
          */
         if (!is_admin() AND is_post_type_archive('program') AND $query->is_main_query()) {
@@ -83,6 +91,7 @@ if (!function_exists('university_adjust_queries')) {
             $query->set('orderby', 'title');
             $query->set('order', 'ASC');
         }
+
 
         /**
          *  Custom Query: CPT Event
