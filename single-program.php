@@ -19,8 +19,42 @@
 	<div class="generic-content"><?php the_content() ?></div>
 	
 	<?php
+	/** 
+	 * CUSTOM QUERY - RELATED PROFESSORS - SUBJEC(s) TAUGHT
+	 * */
+	$relatedProfessors = new WP_Query(array(
+		'posts_per_page' => -1,
+		'post_type' => 'professor',
+		'orderby' => 'title',
+		'order' => 'ASC',
+		'meta_query' => array(
+			array(
+				'key' => 'related_programs',
+				'compare' => 'LIKE',
+				'value' => '"' . get_the_ID() . '"'
+			)
+		)
+	));
+
+	if ($relatedProfessors->have_posts()) {
+		echo '<hr class="section-break">';
+		echo '<h2 class="headline headline--medium">' . get_the_title() . ' Professor</h2>';
+		echo '<ul class="link-list min-list">';
+		while($relatedProfessors->have_posts()) {
+			$relatedProfessors->the_post();
+	?>
+			<li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
+	<?php }
+		echo '</ul>';
+
+		wp_reset_postdata(); 
+	} 
+
+	/** 
+	 * CUSTOM QUERY - UPCOMMING EVENTS - RELATED PROGRAMS
+	 * */
 		$today = date('Ymd');
-		$upcommingEvent = new WP_Query(array(
+		$upcommingEvents = new WP_Query(array(
 				'posts_per_page' => 2,
 				'post_type' => 'event',
 				'meta_key' => 'event_date',
@@ -40,32 +74,33 @@
 					)
 				)
 			));
-		if ($upcommingEvent->have_posts()) {
+			
+		if ($upcommingEvents->have_posts()) {
 			echo '<hr class="section-break">';
-		echo '<h2 class="headline headline--medium">Upcomming ' . get_the_title() . ' Events</h2>';
-		while ($upcommingEvent->have_posts()) {
-			$upcommingEvent->the_post(); ?>
-			<div class="event-summary">
-                <a class="event-summary__date t-center" href="<?php the_permalink() ?>">
-                  <span class="event-summary__month"><?php
-                    $eventDate = new DateTime(get_field('event_date'));
-                    echo $eventDate->format('M');
-                  ?></span>
-                  <span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
-                </a>
-                <div class="event-summary__content">
-                  <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h5>
-                  <p><?php if (has_excerpt()) {
-                        echo get_the_excerpt();
-                    } else {
-                        echo wp_trim_words(get_the_content(), 18);
-                    } ?><a href="<?php the_permalink() ?>" class="nu gray"> Learn more</a></p>
-                </div>
-              </div>
-		 <?php } ?>
+			echo '<h2 class="headline headline--medium">Upcomming ' . get_the_title() . ' Events</h2>';
+			while ($upcommingEvents->have_posts()) {
+				$upcommingEvents->the_post(); ?>
+				<div class="event-summary">
+					<a class="event-summary__date t-center" href="<?php the_permalink() ?>">
+					<span class="event-summary__month"><?php
+						$eventDate = new DateTime(get_field('event_date'));
+						echo $eventDate->format('M');
+					?></span>
+					<span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
+					</a>
+					<div class="event-summary__content">
+					<h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h5>
+					<p><?php if (has_excerpt()) {
+							echo get_the_excerpt();
+						} else {
+							echo wp_trim_words(get_the_content(), 18);
+						} ?><a href="<?php the_permalink() ?>" class="nu gray"> Learn more</a></p>
+					</div>
+				</div>
+			<?php } ?>
 
-<?php }
-} ?> 
+		<?php }
+		} ?> 
 </div>
 
 <?php get_footer() ?>
