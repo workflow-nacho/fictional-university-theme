@@ -47,8 +47,8 @@ if (!function_exists('university_files')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
             wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.8c97d901916ad616a264.js'), NULL, '1.0', true);
-            wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.291f4fbd3120f33dcc5a.js'), NULL, '1.0', true);
-            wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.291f4fbd3120f33dcc5a.css'));
+            wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.48e59d7e7e54a2111a4d.js'), NULL, '1.0', true);
+            wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.48e59d7e7e54a2111a4d.css'));
         }     
     }
 }
