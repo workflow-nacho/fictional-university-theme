@@ -18,8 +18,8 @@ function pageBanner($args=NULL) {
         } else {
             $args['photo'] = get_theme_file_uri( '/images/ocean.jpg' );
         }
-    }
-?>
+    } ?>
+
     <div class="page-banner">
         <div class="page-banner__bg-image" style="background-image: url(<?php echo $args['photo']; ?>)"></div>
         <div class="page-banner__content container container--narrow">
@@ -29,27 +29,35 @@ function pageBanner($args=NULL) {
             </div>
         </div>  
     </div>
-<?php
+    <?php
 }
 
-function university_files() {
-    wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
-    wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 
-    if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.test')) {
-        wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
-    } else {
-        wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.8c97d901916ad616a264.js'), NULL, '1.0', true);
-        wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.291f4fbd3120f33dcc5a.js'), NULL, '1.0', true);
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.291f4fbd3120f33dcc5a.css'));
-    }
+/**
+ * UNIVERSITY FILES
+ */
+if (!function_exists('university_files')) {
+    function university_files() {
+        wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
+        wp_enqueue_style('font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+        wp_enqueue_script('googleMap', '//maps.googleapis.com/maps/api/js?key=AIzaSyC4rnB4f7qisVN-whlA_cqq5dKgo08vIg8', NULL, '1.0', true);
     
+        if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.test')) {
+            wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
+        } else {
+            wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.8c97d901916ad616a264.js'), NULL, '1.0', true);
+            wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.291f4fbd3120f33dcc5a.js'), NULL, '1.0', true);
+            wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.291f4fbd3120f33dcc5a.css'));
+        }     
+    }
 }
 
 add_action('wp_enqueue_scripts', 'university_files');
 
+
 /**
- * THEME FEATURES
+ * UNIVERSITY THEME FEATURES
  */
 function university_features() {
     add_theme_support( 'title-tag' );
@@ -68,6 +76,14 @@ add_action('after_setup_theme', 'university_features');
 if (!function_exists('university_adjust_queries')) {
     function university_adjust_queries($query) {
         /**
+         *  Custom Query: CPT Campus
+         */
+        if (!is_admin() AND is_post_type_archive('campus') AND $query->is_main_query()) {
+            $query->set('posts_per_page', -1);
+        }
+
+
+        /**
          *  Custom Query: CPT Program
          */
         if (!is_admin() AND is_post_type_archive('program') AND $query->is_main_query()) {
@@ -75,6 +91,7 @@ if (!function_exists('university_adjust_queries')) {
             $query->set('orderby', 'title');
             $query->set('order', 'ASC');
         }
+
 
         /**
          *  Custom Query: CPT Event
@@ -97,3 +114,17 @@ if (!function_exists('university_adjust_queries')) {
 }
 
 add_action('pre_get_posts', 'university_adjust_queries');
+
+
+/**
+ * UNIVERSITY ADVANCED CUSTOM FIELD FILTER - GOOGLE MAP API
+ */
+if (!function_exists('universityMapKey')) {
+    function universityMapKey($api) {
+        $api['key'] = 'AIzaSyC4rnB4f7qisVN-whlA_cqq5dKgo08vIg8';
+
+        return $api;
+    }
+}
+
+add_filter('acf/fields/google_map/api', 'universityMapKey');
