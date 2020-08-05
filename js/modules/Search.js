@@ -46,27 +46,32 @@ class Search {
   // Geting results from Search Overlay
   getResults() {
     $.getJSON(
-      "http://fictional-university.test/wp-json/wp/v2/posts?search=" +
+      universityData.root_url +
+        "/wp-json/wp/v2/posts?search=" +
         this.searchField.val(),
       (response) => {
         this.resultsDiv.html(`
           <h2 class="search-overlay__section-title">General Information</h2>
-          <ul class="link-list min-list">
+          ${
+            response.length
+              ? '<ul class="link-list min-list">'
+              : "<p>No general information matches that search.</p>"
+          }
             ${response
               .map(
                 (item) =>
                   `<li><a href="${item.link}">${item.title.rendered}</a></li>`
               )
               .join("")}
-          </ul>
+          ${response.length ? "</ul>" : ""}
         `);
+        this.isSpinnerVisible = false;
       }
     );
   }
 
   // Open and close Search Overlay pushing key "ESC" to close it and key "S" to close it.
   keyPressDispatcher(e) {
-    console.log(e);
     // s(keyCode)=83
     if (
       e.keyCode == 83 &&
