@@ -47,8 +47,8 @@ if (!function_exists('university_files')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
                 wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.37bce2bca1c140556c0d.js'), NULL, '1.0', true);
-                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.37bce2bca1c140556c0d.css'));
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.3e9045a761f5ae384623.js'), NULL, '1.0', true);
+                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.3e9045a761f5ae384623.css'));
             }  
         
         // Function that will output JavaScript Data intohtml source of the WebPage
