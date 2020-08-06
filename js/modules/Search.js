@@ -46,48 +46,84 @@ class Search {
 
   // Geting results from Search Overlay
   getResults() {
-    // Async
-    $.when(
-      $.getJSON(
-        universityData.root_url +
-          "/wp-json/wp/v2/posts?search=" +
-          this.searchField.val()
-      ),
-      $.getJSON(
-        universityData.root_url +
-          "/wp-json/wp/v2/pages?search=" +
-          this.searchField.val()
-      )
-    ).then(
-      (posts, pages) => {
-        // As these parameters come from the $.when and .then combo, They contain a little bit more than just a WP JASON DATA; They also contaion information requested itself like whether is success or failed. It contains an array with two items: item[0] contains the WP JSON DATA and item[1] contains the information about whether is success or failed.
-        var combineResults = posts[0].concat(pages[0]);
+    $.getJSON(
+      universityData.root_url +
+        "/wp-json/university/v1/search?term=" +
+        this.searchField.val(),
+      (results) => {
         this.resultsDiv.html(`
-          <h2 class="search-overlay__section-title">General Information</h2>
-          ${
-            combineResults.length
-              ? '<ul class="link-list min-list">'
-              : "<p>No general information matches that search.</p>"
-          }
-            ${combineResults
+        <div class="row">
+          <div class="one-third">
+            <h2 search-overlay__section-title>General Information</h2>
+            ${
+              results.generalInfo.length
+                ? '<ul class="link-list min-list">'
+                : "<p>No general information matches that search.</p>"
+            }
+
+            ${results.generalInfo
               .map(
                 (item) =>
-                  `<li><a href="${item.link}">${item.title.rendered}</a> ${
-                    item.type == "post" ? `by ${item.authorName}` : ""
-                  }</li>`
+                  `
+                  <li><a href="${item.permalink}">${item.title}</a> ${
+                    item.postType == "post" ? `by ${item.authorName}` : ""
+                  }</li>
+                `
               )
               .join("")}
-          ${combineResults.length ? "</ul>" : ""}
+
+            ${results.generalInfo.length ? "</ul>" : ""}
+          </div>
+
+          <div class="one-third">
+            <h2 search-overlay__section-title>Programs</h2>
+            ${
+              results.programs.length
+                ? '<ul class="link-list min-list">'
+                : `<p>No programs match that search.<a href='${universityData.root_url}/programs'>View all programs</a></p>`
+            }
+
+            ${results.programs
+              .map(
+                (item) =>
+                  `<li><a href="${item.permalink}">${item.title}</a></li>`
+              )
+              .join("")}
+
+            ${results.programs.length ? "</ul>" : ""}
+
+            <h2 search-overlay__section-title>Professors</h2>
+
+          </div>
+
+          <div class="one-third">
+            <h2 search-overlay__section-title>Campuses</h2>
+            ${
+              results.campuses.length
+                ? '<ul class="link-list min-list">'
+                : `<p>No campuses match that search. <a href="${universityData.root_url}/campuses">View all campuses.</a></p>`
+            }
+
+            ${results.campuses
+              .map(
+                (item) =>
+                  `
+                    <li><a href="${item.permalink}">${item.title}</a></li>
+                  `
+              )
+              .join("")}
+
+            ${results.campuses.length ? "</ul>" : ""}
+
+            <h2 search-overlay__section-title>Events</h2>
+
+          </div>
+        </div>
         `);
         this.isSpinnerVisible = false;
-      },
-      () => {
-        this.resultsDiv.html(`
-      <p>Unexpected error; please try again.</p>
-    `);
       }
-    );
-  }
+    ); // End REST API URL
+  } // End getResults
 
   // Open and close Search Overlay pushing key "ESC" to close it and key "S" to close it.
   keyPressDispatcher(e) {

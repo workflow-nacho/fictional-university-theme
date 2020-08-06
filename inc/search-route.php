@@ -40,7 +40,9 @@ if (!function_exists('universitySearchResults')) {
             if (get_post_type() == 'post' OR get_post_type('page')) {
                 array_push($results['generalInfo'], array(
                     'title' => get_the_title(),
-                    'permalink' => get_the_permalink()
+                    'permalink' => get_the_permalink(),
+                    'postType' => get_post_type(),
+                    'authorName' => get_the_author()
                 ));
             }
 
