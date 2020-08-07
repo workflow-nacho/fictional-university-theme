@@ -95,7 +95,7 @@ if (!function_exists('universitySearchResults')) {
         $programRelationshipQuery = new WP_Query(array(
             'post_type' => 'professor',
             'meta_query' => array(
-                array('relation' => 'OR'),
+                'relation' => 'OR',
                 array(
                     'key' => 'related_programs',
                     'compare' => 'LIKE',
