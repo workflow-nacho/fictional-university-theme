@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * CUSTOM REST API ROUTE: 
+ */
+require get_theme_file_path( '/inc/search-route.php' );
+
+
+/**
  * WP REST API: WP JSON DATA
  */
 if (!function_exists('university_custom_rest')) {
