@@ -46,27 +46,43 @@ class Search {
 
   // Geting results from Search Overlay
   getResults() {
-    $.getJSON(
-      universityData.root_url +
-        "/wp-json/wp/v2/posts?search=" +
-        this.searchField.val(),
-      (response) => {
+    // Async
+    $.when(
+      $.getJSON(
+        universityData.root_url +
+          "/wp-json/wp/v2/posts?search=" +
+          this.searchField.val()
+      ),
+      $.getJSON(
+        universityData.root_url +
+          "/wp-json/wp/v2/pages?search=" +
+          this.searchField.val()
+      )
+    ).then(
+      (posts, pages) => {
+        // As these parameters come from the $.when and .then combo, They contain a little bit more than just a WP JASON DATA; They also contaion information requested itself like whether is success or failed. It contains an array with two items: item[0] contains the WP JSON DATA and item[1] contains the information about whether is success or failed.
+        var combineResults = posts[0].concat(pages[0]);
         this.resultsDiv.html(`
           <h2 class="search-overlay__section-title">General Information</h2>
           ${
-            response.length
+            combineResults.length
               ? '<ul class="link-list min-list">'
               : "<p>No general information matches that search.</p>"
           }
-            ${response
+            ${combineResults
               .map(
                 (item) =>
                   `<li><a href="${item.link}">${item.title.rendered}</a></li>`
               )
               .join("")}
-          ${response.length ? "</ul>" : ""}
+          ${combineResults.length ? "</ul>" : ""}
         `);
         this.isSpinnerVisible = false;
+      },
+      () => {
+        this.resultsDiv.html(`
+      <p>Unexpected error; please try again.</p>
+    `);
       }
     );
   }
@@ -105,6 +121,7 @@ class Search {
     this.isOverlayOpen = false;
   }
 
+  // Load JS Live Search on Front-End
   addSearchHTML() {
     $("body").append(`
       <div class="search-overlay">
