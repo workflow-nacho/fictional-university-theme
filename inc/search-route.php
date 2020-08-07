@@ -57,7 +57,8 @@ if (!function_exists('universitySearchResults')) {
             if (get_post_type() == 'program') {
                 array_push($results['programs'], array(
                     'title' => get_the_title(),
-                    'permalink' => get_the_permalink()
+                    'permalink' => get_the_permalink(),
+                    'id' => get_the_ID()
                 ));
             }
 
@@ -97,8 +98,18 @@ if (!function_exists('universitySearchResults')) {
                 array(
                     'key' => 'related_programs',
                     'compare' => 'LIKE',
-                    'value' => '"53"'
-                )
+                    'value' => '"' . $results['programs'][0]['id'] . '"'
+                ),
+                /*array(
+                    'key' => 'related_programs',
+                    'compare' => 'LIKE',
+                    'value' => '"' . $results['programs'][0]['id'] . '"'
+                ),
+                array(
+                    'key' => 'related_programs',
+                    'compare' => 'LIKE',
+                    'value' => '"' . $results['programs'][0]['id'] . '"'
+                )*/
             )
         ));
 
@@ -114,7 +125,7 @@ if (!function_exists('universitySearchResults')) {
         }
 
         $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
-        
+
         return $results;
     }
 }
