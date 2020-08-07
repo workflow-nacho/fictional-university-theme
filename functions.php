@@ -46,10 +46,15 @@ if (!function_exists('university_files')) {
         if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.test')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
-            wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.8c97d901916ad616a264.js'), NULL, '1.0', true);
-            wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.a0ca8e2ce471ae5efc59.js'), NULL, '1.0', true);
-            wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.a0ca8e2ce471ae5efc59.css'));
-        }     
+                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.37bce2bca1c140556c0d.js'), NULL, '1.0', true);
+                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.37bce2bca1c140556c0d.css'));
+            }  
+        
+        // Function that will output JavaScript Data intohtml source of the WebPage
+        wp_localize_script('main-university-js', 'universityData', array(
+            'root_url' => get_site_url() // Return url of the WP installation.
+        ));
     }
 }
 
