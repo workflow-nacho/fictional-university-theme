@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * CUSTOM REST API ROUTE: 
+ */
+require get_theme_file_path( '/inc/search-route.php' );
+
+
+/**
  * WP REST API: WP JSON DATA
  */
 if (!function_exists('university_custom_rest')) {
@@ -62,8 +68,8 @@ if (!function_exists('university_files')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
                 wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.9678b4003190d41dd438.js'), NULL, '1.0', true);
-                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.92adb989ebddceaaa1fb.js'), NULL, '1.0', true);
-                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.92adb989ebddceaaa1fb.css'));
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.b2aae77daf38114072bf.js'), NULL, '1.0', true);
+                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.b2aae77daf38114072bf.css'));
             }  
         
         // Function that will output JavaScript Data intohtml source of the WebPage
