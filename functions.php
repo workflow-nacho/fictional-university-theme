@@ -77,9 +77,9 @@ if (!function_exists('university_files')) {
         if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.test')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
-                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.3e7f3bc7f9a6d8c967b6.js'), NULL, '1.0', true);
-                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.e51329f733ac8b6fd836.js'), NULL, '1.0', true);
-                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.e51329f733ac8b6fd836.css'));
+                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.5a10ff894aa363e5bf4d.js'), NULL, '1.0', true);
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.7a285954c0337cfc49fe.js'), NULL, '1.0', true);
+                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.7a285954c0337cfc49fe.css'));
             }  
         
         // Function that will output JavaScript Data intohtml source of the WebPage
@@ -229,7 +229,7 @@ add_action('login_enqueue_scripts', 'ourLoginCSS');
 if (!function_exists('ourLoginCSS')) {
     function ourLoginCSS () {
         wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.e51329f733ac8b6fd836.css'));
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.7a285954c0337cfc49fe.css'));
     }
 }
 
@@ -244,7 +244,7 @@ if (!function_exists('makeNotePrivate')) {
 
         if ($data['post_type'] == 'note') {
             if (count_user_posts(get_current_user_id(), 'note') > 4 AND !$postarr['ID']) {
-                die('You have reached yout note limit');
+                die('You have reached your note limit.');
             }
         }
 
