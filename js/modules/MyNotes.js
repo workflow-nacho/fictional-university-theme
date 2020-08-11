@@ -102,10 +102,10 @@ class MyNotes {
     };
 
     $.ajax({
-      url: universityData.root_url + "/wp-json/wp/v2/note/",
       beforeSend: (xhr) => {
         xhr.setRequestHeader("X-WP-Nonce", universityData.nonce);
       },
+      url: universityData.root_url + "/wp-json/wp/v2/note/",
       type: "POST",
       data: ourNewPost,
       success: (response) => {
@@ -115,7 +115,7 @@ class MyNotes {
                 <input readonly class="note-title-field" value="${response.title.raw}">
                 <span class="edit-note"><i class="fa fa-pencil" aria-hidden=true></i> Edit</span>
                 <span class="delete-note"><i class="fa fa-trash-o" aria-hidden=true></i> Delete</span>
-                <textarea readonly class="note-body-field">${response.title.rendered}</textarea>
+                <textarea readonly class="note-body-field">${response.content.raw}</textarea>
                 <span class="update-note btn btn--blue btn--small"><i class="fa fa-arrow-right" aria-hidden=true></i> Save</span>
             </li>
         `)

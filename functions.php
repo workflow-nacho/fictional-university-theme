@@ -67,9 +67,9 @@ if (!function_exists('university_files')) {
         if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.test')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
-                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.981c0738f80e5912bb7d.js'), NULL, '1.0', true);
-                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.aecc679ac89e7b60b79e.js'), NULL, '1.0', true);
-                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.aecc679ac89e7b60b79e.css'));
+                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.3e7f3bc7f9a6d8c967b6.js'), NULL, '1.0', true);
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.cd9dbe2dfd3e7a4dd8e1.js'), NULL, '1.0', true);
+                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.cd9dbe2dfd3e7a4dd8e1.css'));
             }  
         
         // Function that will output JavaScript Data intohtml source of the WebPage
@@ -219,8 +219,23 @@ add_action('login_enqueue_scripts', 'ourLoginCSS');
 if (!function_exists('ourLoginCSS')) {
     function ourLoginCSS () {
         wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.aecc679ac89e7b60b79e.css'));
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.cd9dbe2dfd3e7a4dd8e1.css'));
     }
 }
 
+
+/**
+ * Force note posts to be private
+ */
+add_filter('wp_insert_post_data', 'makeNotePrivate');
+
+if (!function_exists('makeNotePrivate')) {
+    function makeNotePrivate ($data) {
+        if ($data['post_type'] == 'note' AND $data['post_status'] != 'trash') {
+            $data['post_status'] = 'private';
+        }
+        
+        return $data;
+    }
+}
 
