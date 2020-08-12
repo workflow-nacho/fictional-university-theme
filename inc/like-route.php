@@ -16,8 +16,16 @@ if (!function_exists('universityLikeRoutes')) {
     }
 }
 
-function createLike() {
-    return 'Thanks for trying to CREATE a like';
+function createLike($data) {
+    $professor = sanitize_text_field($data['professorID']);
+    wp_insert_post(array(
+        'post_type' => 'like',
+        'post_status' => 'publish',
+        'post_title' => 'Our Second PHP create Post test',
+        'meta_input' => array(
+            'liked_professor_id' => $professor
+        )
+    ));
 }
 
 function deleteLike() {
