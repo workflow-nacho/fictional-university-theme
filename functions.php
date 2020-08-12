@@ -83,9 +83,9 @@ if (!function_exists('university_files')) {
         if (strstr($_SERVER['SERVER_NAME'], 'fictional-university.test')) {
             wp_enqueue_script('main-university-js', 'http://localhost:3000/bundled.js', NULL, '1.0', true); # This only work in our local machine. Not on a production server.
         } else {
-                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.981c0738f80e5912bb7d.js'), NULL, '1.0', true);
-                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.af95278f45c1d711f964.js'), NULL, '1.0', true);
-                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.af95278f45c1d711f964.css'));
+                wp_enqueue_script('our-vendors-js', get_theme_file_uri('/bundled-assets/vendors~scripts.7d054c267a52fa2373d3.js'), NULL, '1.0', true);
+                wp_enqueue_script('main-university-js', get_theme_file_uri('/bundled-assets/scripts.1a5e4a61f864e772b348.js'), NULL, '1.0', true);
+                wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.1a5e4a61f864e772b348.css'));
             }  
         
         // Function that will output JavaScript Data intohtml source of the WebPage
@@ -235,7 +235,7 @@ add_action('login_enqueue_scripts', 'ourLoginCSS');
 if (!function_exists('ourLoginCSS')) {
     function ourLoginCSS () {
         wp_enqueue_style('custom-google-fonts', '//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i');
-        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.af95278f45c1d711f964.css'));
+        wp_enqueue_style('our-main-styles', get_theme_file_uri('/bundled-assets/styles.1a5e4a61f864e772b348.css'));
     }
 }
 
